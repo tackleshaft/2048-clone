@@ -7,9 +7,9 @@ function App() {
   // const boardDefault = Array(4).fill(Array(4).fill(null));
   const boardTest = 
   [[null,2,null,null],
-  [null,null,null,null],
-  [null,null,null,null],
-  [null,null,null,null], ]
+  [2,2,2,2],
+  [null,null,2,2],
+  [2,null,2,2], ]
 
   const [board, setBoard] = useState(boardTest);
 
@@ -42,7 +42,7 @@ function App() {
           index2--;
           continue;
         }
-        if (newBoard[row][index1] === null) {
+        if (newBoard[row][index1] === null ) {
           if (nullPt === undefined) nullPt = index1;
           if (index2 - 1 < 0) {
             newBoard[row][nullPt] = newBoard[row][index2]
@@ -51,6 +51,11 @@ function App() {
           index1--;
           index2--;
           continue;
+        }
+        if (newBoard[row][index1] && nullPt !== undefined) {
+          newBoard[row][nullPt] = newBoard[row][index1]
+          newBoard[row][index1] = null;
+          index1--;
         }
       }
     }
