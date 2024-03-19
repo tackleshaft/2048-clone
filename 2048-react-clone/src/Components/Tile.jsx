@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Tile() {
+function Tile({ row, col, tileVal }) {
   return (
-    <div className="tile"></div>
+    <div className="tile">{tileVal}</div>
   )
 }
 
