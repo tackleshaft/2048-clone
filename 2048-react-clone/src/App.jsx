@@ -160,35 +160,33 @@ function App() {
     setBoard(newBoard);
 
   }
-
-  useEffect(() => console.log('board[3]: ', board[3]), [board]);
   
   useEffect(() => {
-  const handleKeyDown = (e) => {
-    e.preventDefault(); // Prevent default behavior
-    
-    if (e.key === 'ArrowUp') {
-      console.log('up!')
-      moveUp();
-    }
-    else if (e.key === 'ArrowLeft') {
-      console.log('left!');
-      moveLeft();
-    }
-    else if (e.key === 'ArrowRight') {
-      console.log('right!')
-      moveRight();
-    }
-    else if (e.key === 'ArrowDown') {
-      console.log('down!');
-      moveDown();
-    }
-  };
-    document.addEventListener("keydown", handleKeyDown);
-  
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+    const handleKeyDown = (e) => {
+      e.preventDefault(); // Prevent default behavior
+      
+      if (e.key === 'ArrowUp') {
+        console.log('up!')
+        moveUp();
+      }
+      else if (e.key === 'ArrowLeft') {
+        console.log('left!');
+        moveLeft();
+      }
+      else if (e.key === 'ArrowRight') {
+        console.log('right!')
+        moveRight();
+      }
+      else if (e.key === 'ArrowDown') {
+        console.log('down!');
+        moveDown();
+      }
     };
+      document.addEventListener("keydown", handleKeyDown);
+    
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
   }, [board]);
 
   
