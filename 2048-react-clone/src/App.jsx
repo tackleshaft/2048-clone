@@ -41,7 +41,7 @@ function App() {
 
   function moveRight() {
 
-    const newBoard = board.map((array) => [...array]);
+    let newBoard = board.map((array) => [...array]);
 
     for (let row = 0; row < 4; row++) {
       let result = newBoard[row].filter( (el) => el !== null);
@@ -62,12 +62,13 @@ function App() {
       }
       newBoard[row] = result;
     }
+    newBoard = addTile(newBoard);
     setBoard(newBoard);
   }
   
   function moveLeft() {
 
-    const newBoard = board.map((array) => [...array]);
+    let newBoard = board.map((array) => [...array]);
 
     for (let row = 0; row < 4; row++) {
       let result = newBoard[row].filter( (el) => el !== null);
@@ -91,6 +92,7 @@ function App() {
 
       newBoard[row] = result;
     }
+    newBoard = addTile(newBoard);
     setBoard(newBoard);
   }
 
@@ -123,7 +125,8 @@ function App() {
       rotatedBoard[row] = result;
     }
 
-    newBoard = rotateRight(rotatedBoard)
+    newBoard = rotateRight(rotatedBoard);
+    newBoard = addTile(newBoard);
     setBoard(newBoard);
   }
 
@@ -156,11 +159,30 @@ function App() {
       rotatedBoard[row] = result;
     }
 
-    newBoard = rotateLeft(rotatedBoard)
+    newBoard = rotateLeft(rotatedBoard);
+    newBoard = addTile(newBoard);
     setBoard(newBoard);
 
   }
   
+  function addTile(board) {
+
+    const newRowIndex = Math.floor(Math.random() * 4);
+    const newColIndex = Math.floor(Math.random() * 4);
+
+    console.log(newRowIndex);
+    console.log(newColIndex);
+    
+    if (board[newRowIndex][newColIndex] !== null) return addTile(board);
+    
+    else {
+      let newBoard = board.map((array) => [...array]);
+      newBoard[newRowIndex][newColIndex] = 2;
+      return newBoard;
+    }
+
+  }
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       e.preventDefault(); // Prevent default behavior
