@@ -7,18 +7,13 @@ function App() {
 
   function startBoard() {
   const boardDefault = Array(4).fill(Array(4).fill(null));
-  const oneTile = addTile(boardDefault);
-  const board = addTile(oneTile);
-  return board;
+  const newBoard = addTile(addTile(boardDefault));
+  return newBoard;
   }
 
-  // const boardTest = 
-  // [[2,null,null,null],
-  // [2,null,2,null],
-  // [null,null,2,null],
-  // [4,8,8,8], ]
 
   const [board, setBoard] = useState(startBoard());
+  const [score, setScore] = useState(0);
 
   const rotateLeft = function (matrix) {
     const rows = matrix.length;
@@ -56,6 +51,7 @@ function App() {
       while (i > 0) {
         if (result[i] === result[i - 1]) {
           result[i] *= 2;
+          setScore(score + result[i]);
           result[i - 1] = null;
           i -= 2;
         } else {
@@ -84,6 +80,7 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
+          setScore(score + result[i]);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -116,6 +113,7 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
+          setScore(score + result[i]);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -150,6 +148,7 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
+          setScore(score + result[i]);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -221,7 +220,7 @@ function App() {
   
   return (
     <div className="App">
-      <Scoreboard />
+      <Scoreboard score={score} setBoard={setBoard} setScore={setScore} startBoard={startBoard}/>
       <Board board={board} setBoard={setBoard} />
     </div>
   );
