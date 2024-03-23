@@ -2,9 +2,8 @@ import React from 'react';
 
 function Tile({ row, col, tileVal }) {
 
-  let tileClassName = 'tile'; // Default class name
+  let tileClassName = 'tile';
 
-  // Define a mapping of tile values to CSS class names
   const valueClassMap = {
   2: 'two',
   4: 'four',
@@ -19,12 +18,10 @@ function Tile({ row, col, tileVal }) {
   2048: 'two-thousand-forty-eight',
   };
 
-  // If tileVal exists in the mapping, update the tileClassName
   if (valueClassMap[tileVal]) {
     tileClassName += ' ' + valueClassMap[tileVal];
   }
 
-  
   return (
     <div className={tileClassName}>{tileVal}</div>
   )
