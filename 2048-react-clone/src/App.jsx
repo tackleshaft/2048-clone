@@ -1,17 +1,24 @@
 import './App.css';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Scoreboard from './Components/Scoreboard.jsx';
 import Board from './Components/Board.jsx';
 
 function App() {
-  // const boardDefault = Array(4).fill(Array(4).fill(null));
-  const boardTest = 
-  [[2,null,null,null],
-  [2,null,2,null],
-  [null,null,2,null],
-  [4,8,8,8], ]
 
-  const [board, setBoard] = useState(boardTest);
+  function startBoard() {
+  const boardDefault = Array(4).fill(Array(4).fill(null));
+  const oneTile = addTile(boardDefault);
+  const board = addTile(oneTile);
+  return board;
+  }
+
+  // const boardTest = 
+  // [[2,null,null,null],
+  // [2,null,2,null],
+  // [null,null,2,null],
+  // [4,8,8,8], ]
+
+  const [board, setBoard] = useState(startBoard());
 
   const rotateLeft = function (matrix) {
     const rows = matrix.length;
