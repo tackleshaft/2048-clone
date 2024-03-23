@@ -1,3 +1,18 @@
+:root {
+  --empty-color: #CDC1B4;
+  --two-color: #EEE4DA;
+  --four-color: #EDE0C8;
+  --eight-color: #F2B179;
+  --sixteen-color: #F59563;
+  --thirty-two-color: #F67C5F;
+  --sixty-four-color: #F65E3B;
+  --one-twenty-eight-color: #EDCF72;
+  --two-fifty-six-color: #EDCC61;
+  --five-twelve-color: #EDC850;
+  --one-thousand-twenty-four-color: #EDC53F;
+  --two-thousand-forty-eight-color: #EDC22E;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -43,10 +58,54 @@
   width: 110px;
   height: 110px;
   margin: 11px;
-  background-color: #EEE4DA; 
+  background-color: var(--tile-color, #CCC1B3);
   border-radius: 5px;
 }
 
 .empty {
   background-color: #CDC1B4;
+}
+
+.two {
+  background-color: var(--two-color);
+}
+
+.four {
+  background-color: var(--four-color);
+}
+
+.eight {
+  background-color: var(--eight-color);
+}
+
+.tile.sixteen {
+  background-color: var(--sixteen-color);
+}
+
+.tile.thirty-two {
+  background-color: var(--thirty-two-color);
+}
+
+.tile.sixty-four {
+  background-color: var(--sixty-four-color);
+}
+
+.tile.one-twenty-eight {
+  background-color: var(--one-twenty-eight-color);
+}
+
+.tile.two-fifty-six {
+  background-color: var(--two-fifty-six-color);
+}
+
+.tile.five-twelve {
+  background-color: var(--five-twelve-color);
+}
+
+.tile.one-thousand-twenty-four {
+  background-color: var(--one-thousand-twenty-four-color);
+}
+
+.tile.two-thousand-forty-eight {
+  background-color: var(--two-thousand-forty-eight-color);
 }
