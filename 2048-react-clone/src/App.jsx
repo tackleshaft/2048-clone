@@ -11,11 +11,34 @@ function App() {
   return newBoard;
   }
 
+  // const testBoard = 
+  // [[4,32,8,4], 
+  // [2,16,128,8], 
+  // [4,32,16,4], 
+  // [4,4,8,2]]
 
   const [board, setBoard] = useState(startBoard());
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
-  const rotateLeft = function (matrix) {
+
+  function checkGameOver(matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (j < matrix[i].length - 1 && matrix[i][j] === matrix[i][j + 1]) {
+                return false;
+            }
+            if (i < matrix.length - 1 && matrix[i][j] === matrix[i + 1][j]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+  
+
+  function rotateLeft(matrix) {
     const rows = matrix.length;
     const columns = matrix[0].length;
     const res = [];
@@ -28,7 +51,7 @@ function App() {
     return res;
   };
 
-  const rotateRight = function(matrix) {
+  function rotateRight(matrix) {
     const rows = matrix.length;
     const columns = matrix[0].length;
     const res = [];
@@ -51,7 +74,9 @@ function App() {
       while (i > 0) {
         if (result[i] === result[i - 1]) {
           result[i] *= 2;
-          setScore(score + result[i]);
+          let newScore = score + result[i];
+          setScore(newScore);
+          if (newScore >= highScore) setHighScore(newScore);
           result[i - 1] = null;
           i -= 2;
         } else {
@@ -65,8 +90,12 @@ function App() {
       }
       newBoard[row] = result;
     }
-    newBoard = addTile(newBoard);
+    if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
+    if (!(JSON.stringify(newBoard).includes('null'))) {
+      setGameOver(checkGameOver(newBoard));
+    }
     setBoard(newBoard);
+    if (gameOver) window.alert('Game over!');
   }
   
   function moveLeft() {
@@ -80,7 +109,9 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
-          setScore(score + result[i]);
+          let newScore = score + result[i];
+          setScore(newScore);
+          if (newScore >= highScore) setHighScore(newScore);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -96,8 +127,12 @@ function App() {
 
       newBoard[row] = result;
     }
-    newBoard = addTile(newBoard);
+    if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
+    if (!(JSON.stringify(newBoard).includes('null'))) {
+      setGameOver(checkGameOver(newBoard));
+    }
     setBoard(newBoard);
+    if (gameOver) window.alert('Game over!');
   }
 
   function moveUp() {
@@ -113,7 +148,9 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
-          setScore(score + result[i]);
+          let newScore = score + result[i];
+          setScore(newScore);
+          if (newScore >= highScore) setHighScore(newScore);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -131,8 +168,12 @@ function App() {
     }
 
     newBoard = rotateRight(rotatedBoard);
-    newBoard = addTile(newBoard);
+    if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
+    if (!(JSON.stringify(newBoard).includes('null'))) {
+      setGameOver(checkGameOver(newBoard));
+    }
     setBoard(newBoard);
+    if (gameOver) window.alert('Game over!');
   }
 
   function moveDown() {
@@ -148,7 +189,9 @@ function App() {
       while (i < result.length - 1) {
         if (result[i] === result[i + 1]) {
           result[i] *= 2;
-          setScore(score + result[i]);
+          let newScore = score + result[i];
+          setScore(newScore);
+          if (newScore >= highScore) setHighScore(newScore);
           result[i + 1] = null;
           i += 2;
         } else {
@@ -166,18 +209,18 @@ function App() {
     }
 
     newBoard = rotateLeft(rotatedBoard);
-    newBoard = addTile(newBoard);
+    if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
+    if (!(JSON.stringify(newBoard).includes('null'))) {
+      setGameOver(checkGameOver(newBoard));
+    }
     setBoard(newBoard);
-
+    if (gameOver) window.alert('Game over!');
   }
   
   function addTile(board) {
 
     const newRowIndex = Math.floor(Math.random() * 4);
     const newColIndex = Math.floor(Math.random() * 4);
-
-    console.log(newRowIndex);
-    console.log(newColIndex);
     
     if (board[newRowIndex][newColIndex] !== null) return addTile(board);
     
@@ -194,19 +237,15 @@ function App() {
       e.preventDefault(); // Prevent default behavior
       
       if (e.key === 'ArrowUp') {
-        console.log('up!')
         moveUp();
       }
       else if (e.key === 'ArrowLeft') {
-        console.log('left!');
         moveLeft();
       }
       else if (e.key === 'ArrowRight') {
-        console.log('right!')
         moveRight();
       }
       else if (e.key === 'ArrowDown') {
-        console.log('down!');
         moveDown();
       }
     };
@@ -220,7 +259,7 @@ function App() {
   
   return (
     <div className="App">
-      <Scoreboard score={score} setBoard={setBoard} setScore={setScore} startBoard={startBoard}/>
+      <Scoreboard score={score} setBoard={setBoard} setScore={setScore} startBoard={startBoard} highScore={highScore} setGameOver={setGameOver}/>
       <Board board={board} setBoard={setBoard} />
     </div>
   );
