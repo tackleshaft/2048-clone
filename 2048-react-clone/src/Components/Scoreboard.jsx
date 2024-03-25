@@ -1,11 +1,11 @@
 import React from "react";
 
-function Scoreboard({ score, setScore, startBoard, setBoard, highScore, setGameOver }) {
+function Scoreboard({ score, setScore, startBoard, setBoard, highScore, setGameStatus }) {
     
     function newGame() {
         setBoard(startBoard());
         setScore(0);
-        setGameOver(false);
+        setGameStatus(false);
     }
 
     return (

@@ -11,30 +11,48 @@ function App() {
   return newBoard;
   }
 
-  // const testBoard = 
-  // [[4,32,8,4], 
-  // [2,16,128,8], 
-  // [4,32,16,4], 
-  // [4,4,8,2]]
+  const testBoard = 
+  [[4,32,8,4], 
+  [2,16,128,8], 
+  [4,32,16,4], 
+  [1024,1024,8,2]]
 
-  const [board, setBoard] = useState(startBoard());
+  const [board, setBoard] = useState(testBoard);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
+  const [gameStatus, setGameStatus] = useState({
+    gameOver: false,
+    gameWon: false,
+  });
 
 
   function checkGameOver(matrix) {
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] === 2048) {
+              return {
+                gameOver: false,
+                gameWon: true,
+              }
+            }
             if (j < matrix[i].length - 1 && matrix[i][j] === matrix[i][j + 1]) {
-                return false;
+                return {
+                  gameOver: false,
+                  gameWon: false,
+                };
             }
             if (i < matrix.length - 1 && matrix[i][j] === matrix[i + 1][j]) {
-                return false;
+                return {
+                  gameOver: false,
+                  gameWon: false,
+                };
             }
         }
     }
-    return true;
+    return {
+      gameOver: true,
+      gameWon: false,
+    };
 }
   
 
@@ -92,10 +110,9 @@ function App() {
     }
     if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
     if (!(JSON.stringify(newBoard).includes('null'))) {
-      setGameOver(checkGameOver(newBoard));
+      setGameStatus(checkGameOver(newBoard));
     }
     setBoard(newBoard);
-    if (gameOver) window.alert('Game over!');
   }
   
   function moveLeft() {
@@ -129,10 +146,9 @@ function App() {
     }
     if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
     if (!(JSON.stringify(newBoard).includes('null'))) {
-      setGameOver(checkGameOver(newBoard));
+      setGameStatus(checkGameOver(newBoard));
     }
     setBoard(newBoard);
-    if (gameOver) window.alert('Game over!');
   }
 
   function moveUp() {
@@ -170,10 +186,9 @@ function App() {
     newBoard = rotateRight(rotatedBoard);
     if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
     if (!(JSON.stringify(newBoard).includes('null'))) {
-      setGameOver(checkGameOver(newBoard));
+      setGameStatus(checkGameOver(newBoard));
     }
     setBoard(newBoard);
-    if (gameOver) window.alert('Game over!');
   }
 
   function moveDown() {
@@ -211,10 +226,9 @@ function App() {
     newBoard = rotateLeft(rotatedBoard);
     if (JSON.stringify(board) !== JSON.stringify(newBoard)) newBoard = addTile(newBoard);
     if (!(JSON.stringify(newBoard).includes('null'))) {
-      setGameOver(checkGameOver(newBoard));
+      setGameStatus(checkGameOver(newBoard));
     }
     setBoard(newBoard);
-    if (gameOver) window.alert('Game over!');
   }
   
   function addTile(board) {
@@ -231,6 +245,11 @@ function App() {
     }
 
   }
+
+  useEffect(() => {
+      if (gameStatus.gameOver) window.alert('Game over!');
+      if (gameStatus.gameWon) window.alert('Game won!');
+  }, [board])
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -259,7 +278,7 @@ function App() {
   
   return (
     <div className="App">
-      <Scoreboard score={score} setBoard={setBoard} setScore={setScore} startBoard={startBoard} highScore={highScore} setGameOver={setGameOver}/>
+      <Scoreboard score={score} setBoard={setBoard} setScore={setScore} startBoard={startBoard} highScore={highScore} setGameStatus={setGameStatus}/>
       <Board board={board} setBoard={setBoard} />
     </div>
   );
